@@ -2,6 +2,7 @@
 
 import os
 import logging
+import json
 from time import sleep
 from owlpy import generateId, latest_obs, lookup_checklist
 from datetime import datetime, timedelta
@@ -19,6 +20,7 @@ def check_owl(owl):
     for result in latest_results:
         log.debug(f"found sighting: {owl} - {result['locName']} - {result['obsDt']}")
     print(latest_results)
+    write_file(latest_results)
 
 # def handle_new_sighting(id, data, owl):
 #     obs_data = lookup_checklist(data['subId'], EBIRD_API_TOKEN, owl)
@@ -31,6 +33,10 @@ def check_owl(owl):
 #     data.update(obs_data)
 #     cb.upsert_couchbase(id, data)
 #     sleep(1)
+
+def write_file(data):
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
