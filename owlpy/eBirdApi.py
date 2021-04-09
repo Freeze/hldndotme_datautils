@@ -18,7 +18,7 @@ def latest_obs(api_token, species_code, lat, lng):
     response = requests.request("GET", url, headers=headers)
     eBirdJsonResponse = response.json()
     for sighting in eBirdJsonResponse:
-        log.info(f"Found {species_code} sighting at {sighting['locName']}")
+        log.debug(f"Found {species_code} sighting at {sighting['locName']}")
         days_ago = calculate_time_difference(sighting)
         sighting_address = geolocator.reverse(f"{sighting['lat']}, {sighting['lng']}")
         sighting.update({'daysAgo': days_ago})

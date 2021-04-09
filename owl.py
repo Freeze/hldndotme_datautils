@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.8
 
 import os
 import logging
@@ -20,7 +20,7 @@ def check_owl(owl):
     for result in latest_results:
         log.debug(f"found sighting: {owl} - {result['locName']} - {result['obsDt']}")
     print(latest_results)
-    write_file(latest_results)
+    return latest_results
 
 # def handle_new_sighting(id, data, owl):
 #     obs_data = lookup_checklist(data['subId'], EBIRD_API_TOKEN, owl)
@@ -35,17 +35,18 @@ def check_owl(owl):
 #     sleep(1)
 
 def write_file(data):
-    with open('data.json', 'w', encoding='utf-8') as f:
+    with open('/var/www/html/data.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=os.getenv("LOGLEVEL", "INFO"))
     log = logging.getLogger(__name__)
-    check_owl("nswowl")
-    sleep(1)
-    # check_owl("loeowl")
-    # sleep(1)
-    # check_owl("snoowl1")
-    # sleep(1)
-    # check_owl("easowl1")
+    final_list = []
+    species = ["nswowl", "loeowl", "snoowl1", "easowl1"]
+    for owl in species:
+        results = check_owl(owl)
+        for result in results:
+            final_list.append(result)
+        sleep(1)
+    final_list = sorted(final_list, key=lambda k: k['daysAgo'])
