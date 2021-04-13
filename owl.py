@@ -50,3 +50,4 @@ if __name__ == "__main__":
             final_list.append(result)
         sleep(1)
     final_list = sorted(final_list, key=lambda k: k['daysAgo'])
+    write_file(final_list)
