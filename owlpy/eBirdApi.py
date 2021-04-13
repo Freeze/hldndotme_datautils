@@ -10,6 +10,7 @@ GOOGLE_API_TOKEN = os.getenv('GOOGLE_TOKEN')
 log = logging.getLogger(__name__)
 geolocator = GoogleV3(api_key=GOOGLE_API_TOKEN)
 
+
 def latest_obs(api_token, species_code, lat, lng):
     url = "%s/data/obs/geo/recent/%s?lat=%s&lng=%s&dist=50" % (EBIRD_API_BASE_URL, species_code, lat, lng)
     headers = {
@@ -21,6 +22,7 @@ def latest_obs(api_token, species_code, lat, lng):
         log.debug(f"Found {species_code} sighting at {sighting['locName']}")
         days_ago = calculate_time_difference(sighting)
         sighting_address = geolocator.reverse(f"{sighting['lat']}, {sighting['lng']}")
+        sighting.update({'gmapUrl': gen_gmap_url(sighting['lat'], sighting['lng'])})
         sighting.update({'daysAgo': days_ago})
         try:
             sighting.update({'address': str(sighting_address[0])})
@@ -29,6 +31,11 @@ def latest_obs(api_token, species_code, lat, lng):
             sighting.update({'address': str(sighting_address)})
             sighting.update({'city': str(sighting_address)})
     return eBirdJsonResponse
+
+
+def gen_gmap_url(lat,lng):
+    url = f'https://www.google.com/maps/search/?api=1&query={lat},{lng}'
+    return url
 
 
 def calculate_time_difference(sighting):

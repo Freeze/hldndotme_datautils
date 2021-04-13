@@ -1,7 +1,8 @@
-from .couchbase import Couchbase
-from .basic_storage import update_db
+from .basic_storage import update_db, write_json
+from .wx import get_afd
 
 __all__ = [
-  "Couchbase",
-  "update_db"
+  "update_db",
+  "write_json",
+  "get_afd"
 ]
