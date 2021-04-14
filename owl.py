@@ -30,11 +30,15 @@ def check_owl(owl):
 if __name__ == "__main__":
     logging.basicConfig(level=os.getenv("LOGLEVEL", "INFO"))
     log = logging.getLogger(__name__)
-    final_list = []
     for owl in TESTING_LIST:
+        log.info(f'Checking {owl} sightings!')
+        sighting_list = []
+        owl_path = f'/var/www/html/{owl}.json'
         results = check_owl(owl)
         for result in results:
-            final_list.append(result)
+            sighting_list.append(result)
         sleep(1)
-    final_list = sorted(final_list, key=lambda k: k['daysAgo'])
-    holdenPy.write_json(OWL_DATA_PATH, final_list)
+        sighting_light = sorted(sighting_list, key=lambda k: k['daysAgo'])
+        holdenPy.write_json(owl_path, sighting_list)
+        log.info(f'Finished checking {owl} sightings!  Moving on...')
+    log.info('Finished checking all species.  Moving on.')
