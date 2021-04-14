@@ -39,7 +39,10 @@ def gen_gmap_url(lat,lng):
 
 
 def calculate_time_difference(sighting):
-    sightingDtObj = datetime.strptime(sighting['obsDt'], '%Y-%m-%d %H:%M')
+    try:
+        sightingDtObj = datetime.strptime(sighting['obsDt'], '%Y-%m-%d %H:%M')]
+    except ValueError:
+        sightingDtObj = datetime.strptime(sighting['obsDt'], '%Y-%m-%d')]
     currentTime = datetime.now()
     dtDiff = currentTime - sightingDtObj
     daysAgo = divmod(dtDiff.total_seconds(), 86400)[0]
