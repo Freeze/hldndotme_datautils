@@ -14,7 +14,7 @@ LAT = "45.1497889"
 LNG = "-93.3602303"
 OWL_DATA_PATH = '/var/www/html/data.json'
 SPECIES_LIST = ["nswowl", "loeowl", "snoowl1", "easowl1"]
-TESTING_LIST = ['brdowl']
+TESTING_LIST = ['brdowl', 'grhowl']
 
 EBIRD_API_TOKEN = os.getenv('EBIRD_API_TOKEN')
 
