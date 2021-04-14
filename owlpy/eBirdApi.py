@@ -26,7 +26,7 @@ def latest_obs(api_token, species_code, lat, lng):
         sighting.update({'daysAgo': days_ago})
         try:
             sighting.update({'address': str(sighting_address[0])})
-            sighting.update({'city': str(sighting_address[2])})
+            sighting.update({'city': str(sighting_address.raw['address_components'][3])})
         except:
             sighting.update({'address': str(sighting_address)})
             sighting.update({'city': str(sighting_address)})
