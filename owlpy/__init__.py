@@ -1,6 +1,5 @@
 from .getRegionCode import getRegionCode
-from .genId import generateId
-from .eBirdApi import latest_obs, lookup_checklist
+from .eBirdApi import latest_obs, lookup_checklist, generateId
 
 __all__ = [
     'getRegionCode',

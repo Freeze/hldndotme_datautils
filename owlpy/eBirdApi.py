@@ -19,6 +19,7 @@ def latest_obs(api_token, species_code, lat, lng):
     response = requests.request("GET", url, headers=headers)
     eBirdJsonResponse = response.json()
     for sighting in eBirdJsonResponse:
+        sighting['id'] = generateId(sighting)
         log.debug(f"Found {species_code} sighting at {sighting['locName']}")
         days_ago = calculate_time_difference(sighting)
         sighting_address = geolocator.reverse(f"{sighting['lat']}, {sighting['lng']}")
@@ -63,3 +64,12 @@ def lookup_checklist(checklist_id, api_token, species_code):
             return_dict['comments'] = entry.get('comments', None)
     return_dict['observer_name'] = response['userDisplayName']
     return return_dict
+
+def generateId(sighting):
+    id = ""
+    sighting_dt_obj = datetime.strptime(sighting['obsDt'], '%Y-%m-%d %H:%M')
+    sighting_epoch = sighting_dt_obj.timestamp()
+    sighting_loc_id = sighting['locId']
+    sighting_species_code = sighting['speciesCode']
+    id = "%s_%s_%s" %(sighting_species_code, sighting_epoch, sighting_loc_id)
+    return id

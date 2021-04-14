@@ -5,15 +5,7 @@ import json
 import holdenPy
 from gtts import gTTS
 
-
-URL = "https://api.weather.gov/products/types/afd/locations/mpx"
 LANG = 'en'
-
-headers = {
-    'User-Agent': "Python"
-    }
-
-
 
 if __name__ == "__main__":
     response = requests.request("GET", URL, headers=headers)
