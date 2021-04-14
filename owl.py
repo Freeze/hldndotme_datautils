@@ -23,7 +23,6 @@ def check_owl(owl):
     latest_results = latest_obs(api_token=EBIRD_API_TOKEN, species_code=owl, lat=LAT, lng=LNG)
     for result in latest_results:
         log.debug(f"found sighting: {owl} - {result['locName']} - {result['obsDt']}")
-    print(latest_results)
     return latest_results
 
 
